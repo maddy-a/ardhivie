@@ -1,5 +1,13 @@
 Ardhivie::Application.routes.draw do
 
+  resources :locations
+
+#  get "location/latitude:float"
+
+#  get "location/longitude:float"
+
+#  get "location/user_id:int"
+
   devise_for :users
 
   # The priority is based upon order of creation:

@@ -8,12 +8,12 @@
 
 
 <% if user_signed_in? %>
+<%= content_tag "div", id: "locations", data: {locations: current_user.locations.find(:all, :select => 'latitude, longitude')} do%>
 <div id="map" onload="initialize();">
 </div>
+<% end %>
 <% else %>
   <%= link_to "sign in", new_user_session_path %>
-<!--<h1 id='home-heading'>Ardhiview</h1>
-<h4 id='home-heading'>Welcome to Ardhiview. C://The world</h4>  -->
 <div id='main-image'>
 <img src='assets/ardi_logo.jpeg' width="550" height="350" /></div>
 <h1 id='home-heading'><%= link_to "Sign up", new_user_registration_path %></h1> 

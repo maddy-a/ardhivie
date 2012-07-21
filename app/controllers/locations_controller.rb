@@ -3,7 +3,9 @@ class LocationsController < ApplicationController
   # GET /locations.json
   def index
     @locations = Location.all
-
+    #gon.latitude = current_user.locations.select(:latitude)
+    #Gon.global.loc = current_user.locations.find(:all, :select => 'latitude, longitude')
+    #Gon.global.longitude = current_user.locations.select(:longitude)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @locations }
@@ -40,7 +42,8 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    @location = Location.new(params[:location])
+   @user = User.find(current_user.id)
+   @location = @user.locations.create!(:latitude => params[:latitude], :longitude => params[:longitude])
 
     respond_to do |format|
       if @location.save

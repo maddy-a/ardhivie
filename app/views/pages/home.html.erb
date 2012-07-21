@@ -8,10 +8,9 @@
 
 
 <% if user_signed_in? %>
-<%= content_tag "div", id: "locations", data: {locations: current_user.locations.find(:all, :select => 'latitude, longitude')} do%>
 <div id="map" onload="initialize();">
 </div>
-<% end %>
+
 <% else %>
   <%= link_to "sign in", new_user_session_path %>
 <div id='main-image'>

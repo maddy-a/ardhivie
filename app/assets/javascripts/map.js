@@ -14,32 +14,39 @@ function initialize()
 	navigationControlOptions: {
 		position: google.maps.ControlPosition.TOP_RIGHT
 	}
-	};
+};
 	
 
 
-    map = new google.maps.Map(document.getElementById('map'), options);
-// I am getting the onClick latitude longitude from teh map and passing it to marker. I have to somehow 
-// find a way to pass this latitude and longitude to 
+map = new google.maps.Map(document.getElementById('map'), options);
 
+// **************************  Markers init on Log in ****************//
+/*
+Pass a GET request to the index function in Locations model to get the locations marked by the user. 
 
+*/
 
-var marker = new google.maps.Marker({
-	position: latlng, 
-	map: map, 
-	title: 'Click me', 
-	});
 $.ajax({
 	    type: "GET",
 	    dataType: "json",
 	    url: "/locations",
 	    success: function(data){
-		alert(JSON.parse(data));
+			for( var i=0; i<data.length; i++ ){
+				// Pass the latitude and longitude from data to maps.
+				var marker_latlng= new google.maps.LatLng(data[i].latitude,data[i].longitude);
+				var marker = new google.maps.Marker({
+					position: marker_latlng, 
+					map: map, 
+					title: 'Click me', 
+					});
+				
+				}
 			}
 	});	
 	
 /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */	
-	google.maps.event.addListener(map, 'dblclick', function(event) {
+
+google.maps.event.addListener(map, 'dblclick', function(event) {
 		marker = new google.maps.Marker({position: event.latLng, map: map});
 		var latitude=event.latLng.lat();
 		var longitude=event.latLng.lng(); 
@@ -52,6 +59,11 @@ $.ajax({
 		});
 
 	});
+
+// *****************  End of markers functions ************   ///
+
+// *****************  Start of Info Boxes ***************//
+
 	
 /*	var infowindow = new google.maps.InfoWindow({
 	  content: 'Hello world'

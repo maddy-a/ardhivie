@@ -29,7 +29,14 @@ var marker = new google.maps.Marker({
 	map: map, 
 	title: 'Click me', 
 	});
-	
+$.ajax({
+	    type: "GET",
+	    dataType: "json",
+	    url: "/locations",
+	    success: function(data){
+		alert(JSON.parse(data));
+			}
+	});	
 	
 /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */	
 	google.maps.event.addListener(map, 'dblclick', function(event) {

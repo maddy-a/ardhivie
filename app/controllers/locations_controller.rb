@@ -2,11 +2,8 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
-    #gon.latitude = current_user.locations.select(:latitude)
-    #Gon.global.loc = current_user.locations.find(:all, :select => 'latitude, longitude')
-    #Gon.global.longitude = current_user.locations.select(:longitude)
-    respond_to do |format|
+    @locations = current_user.locations.all
+   respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @locations }
     end

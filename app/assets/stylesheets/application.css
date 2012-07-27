@@ -33,5 +33,6 @@ display: inline;
 margin-left:550px;
 }
 
-
+.info { width: 250px;
+}
 #main-image{align: center; margin-top: 70px; margin-left: 340px;}

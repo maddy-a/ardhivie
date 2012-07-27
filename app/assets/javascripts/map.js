@@ -1,6 +1,10 @@
 
 function initialize() 
 {	
+	var contentString = 'Hello';
+	var infowindow = new google.maps.InfoWindow({
+	        content: contentString
+	    });
 	var map;
 	var latlng = new google.maps.LatLng(37.09, -95.71);
 	var options = {
@@ -14,11 +18,12 @@ function initialize()
 	navigationControlOptions: {
 		position: google.maps.ControlPosition.TOP_RIGHT
 	}
-};
+	};
 	
 
 
 map = new google.maps.Map(document.getElementById('map'), options);
+
 
 // **************************  Markers init on Log in ****************//
 /*
@@ -36,10 +41,13 @@ $.ajax({
 				var marker_latlng= new google.maps.LatLng(data[i].latitude,data[i].longitude);
 				var marker = new google.maps.Marker({
 					position: marker_latlng, 
-					map: map, 
+					map: map,
 					title: 'Click me', 
 					});
-				
+						google.maps.event.addListener(marker, 'click', function() {
+						      infowindow.open(map,marker);
+						    });
+					
 				}
 			}
 	});	
@@ -47,7 +55,10 @@ $.ajax({
 /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */	
 
 google.maps.event.addListener(map, 'dblclick', function(event) {
-		marker = new google.maps.Marker({position: event.latLng, map: map});
+		var marker = new google.maps.Marker({position: event.latLng, draggable: true, map: map});
+			google.maps.event.addListener(marker, 'click', function() {
+			      infowindow.open(map,marker);
+			    });
 		var latitude=event.latLng.lat();
 		var longitude=event.latLng.lng(); 
 		var datastring = 'latitude=' + latitude + '&longitude=' + longitude;
@@ -59,18 +70,20 @@ google.maps.event.addListener(map, 'dblclick', function(event) {
 		});
 
 	});
+	
 
+	
 // *****************  End of markers functions ************   ///
 
 // *****************  Start of Info Boxes ***************//
 
-	
+
+
 /*	var infowindow = new google.maps.InfoWindow({
 	  content: 'Hello world'
 	});infowindow.open(map, marker);
-	google.maps.event.addListener(marker, 'click', function() {
-	  infowindow.open(map, marker);
-	});
+	
 */
+
 
 }

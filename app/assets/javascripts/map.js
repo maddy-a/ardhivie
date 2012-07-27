@@ -1,10 +1,6 @@
 
 function initialize() 
 {	
-	var contentString = 'Hello';
-	var infowindow = new google.maps.InfoWindow({
-	        content: contentString
-	    });
 	var map;
 	var latlng = new google.maps.LatLng(37.09, -95.71);
 	var options = {
@@ -31,6 +27,12 @@ Pass a GET request to the index function in Locations model to get the locations
 
 */
 
+var contentString = 'Hello';
+var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+
 $.ajax({
 	    type: "GET",
 	    dataType: "json",
@@ -45,7 +47,7 @@ $.ajax({
 					title: 'Click me', 
 					});
 						google.maps.event.addListener(marker, 'click', function() {
-						      infowindow.open(map,marker);
+						      infowindow.open(map,this);
 						    });
 					
 				}

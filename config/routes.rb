@@ -1,5 +1,7 @@
 Ardhivie::Application.routes.draw do
 
+  resources :data
+
   resources :locations
 
 #  get "location/latitude:float"

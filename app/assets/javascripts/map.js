@@ -27,12 +27,8 @@ Pass a GET request to the index function in Locations model to get the locations
 
 */
 
-var contentString = 'Hello';
-var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
 
-
+var contentString = "";
 $.ajax({
 	    type: "GET",
 	    dataType: "json",
@@ -46,6 +42,10 @@ $.ajax({
 					map: map,
 					title: 'Click me', 
 					});
+						var contentString = "<b><u>Random<u/><b/>";
+						var infowindow = new google.maps.InfoWindow({
+						        content: contentString
+						    });
 						google.maps.event.addListener(marker, 'click', function() {
 						      infowindow.open(map,this);
 						    });
@@ -57,10 +57,7 @@ $.ajax({
 /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */	
 
 google.maps.event.addListener(map, 'dblclick', function(event) {
-		var marker = new google.maps.Marker({position: event.latLng, draggable: true, map: map});
-			google.maps.event.addListener(marker, 'click', function() {
-			      infowindow.open(map,marker);
-			    });
+		var marker = new google.maps.Marker({position: event.latLng, map: map});
 		var latitude=event.latLng.lat();
 		var longitude=event.latLng.lng(); 
 		var datastring = 'latitude=' + latitude + '&longitude=' + longitude;

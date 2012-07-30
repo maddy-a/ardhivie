@@ -1,10 +1,10 @@
-<%= form_for(@datum) do |f| %>
-  <% if @datum.errors.any? %>
+<%= form_for(@ufile) do |f| %>
+  <% if @ufile.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@datum.errors.count, "error") %> prohibited this datum from being saved:</h2>
+      <h2><%= pluralize(@ufile.errors.count, "error") %> prohibited this ufile from being saved:</h2>
 
       <ul>
-      <% @datum.errors.full_messages.each do |msg| %>
+      <% @ufile.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

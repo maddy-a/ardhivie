@@ -1,6 +1,6 @@
-
 function initialize() 
 {	
+	
 	var map;
 	var latlng = new google.maps.LatLng(37.09, -95.71);
 	var options = {
@@ -15,7 +15,7 @@ function initialize()
 		position: google.maps.ControlPosition.TOP_RIGHT
 	}
 	};
-	
+
 
 
 map = new google.maps.Map(document.getElementById('map'), options);
@@ -26,9 +26,13 @@ map = new google.maps.Map(document.getElementById('map'), options);
 Pass a GET request to the index function in Locations model to get the locations marked by the user. 
 
 */
-
-
-var contentString = "";
+var contentString = "<form method='post' action='/ufiles'><table>" +
+             "<tr><td>Name:</td> <td><input id='ufile_name' name='ufile[name]' size='30' type='text'/></td> </tr>" +
+            "<tr><td align=right ><input type='submit' value='New' /></td>" +
+             "</tr></table></form>";
+var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
 $.ajax({
 	    type: "GET",
 	    dataType: "json",
@@ -37,27 +41,28 @@ $.ajax({
 			for( var i=0; i<data.length; i++ ){
 				// Pass the latitude and longitude from data to maps.
 				var marker_latlng= new google.maps.LatLng(data[i].latitude,data[i].longitude);
+				var loc_id=data[i].id;
 				var marker = new google.maps.Marker({
 					position: marker_latlng, 
 					map: map,
 					title: 'Click me', 
 					});
-						var contentString = "<b><u>Random<u/><b/>";
-						var infowindow = new google.maps.InfoWindow({
-						        content: contentString
-						    });
+						
 						google.maps.event.addListener(marker, 'click', function() {
 						      infowindow.open(map,this);
 						    });
-					
+
 				}
 			}
 	});	
-	
+
 /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */	
 
 google.maps.event.addListener(map, 'dblclick', function(event) {
-		var marker = new google.maps.Marker({position: event.latLng, map: map});
+		var marker = new google.maps.Marker({position: event.latLng, draggable: true, map: map});
+			google.maps.event.addListener(marker, 'click', function() {
+			      infowindow.open(map,marker);
+			    });
 		var latitude=event.latLng.lat();
 		var longitude=event.latLng.lng(); 
 		var datastring = 'latitude=' + latitude + '&longitude=' + longitude;
@@ -69,20 +74,5 @@ google.maps.event.addListener(map, 'dblclick', function(event) {
 		});
 
 	});
-	
-
-	
-// *****************  End of markers functions ************   ///
-
-// *****************  Start of Info Boxes ***************//
-
-
-
-/*	var infowindow = new google.maps.InfoWindow({
-	  content: 'Hello world'
-	});infowindow.open(map, marker);
-	
-*/
-
 
 }

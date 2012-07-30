@@ -9,5 +9,5 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   
   has_many :locations
-  
+  has_many :ufiles
 end

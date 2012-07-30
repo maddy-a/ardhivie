@@ -1,0 +1,23 @@
+<h1>Listing ufiles</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ufiles.each do |ufile| %>
+  <tr>
+    <td><%= ufile.name %></td>
+    <td><%= link_to 'Show', ufile %></td>
+    <td><%= link_to 'Edit', edit_ufile_path(ufile) %></td>
+    <td><%= link_to 'Destroy', ufile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ufile', new_ufile_path %>

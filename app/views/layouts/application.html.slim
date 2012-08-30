@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title Ardhivie
+    meta name="keywords" content="ardhivie"
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true"
+    = javascript_include_tag "http://www.google.com/jsapi"
+    = csrf_meta_tags
+  body onload="initialize();"
+    .container
+      .navbar.navbar-static-top.navbar-inverse
+        .navbar-inner
+          = link_to "Home", root_path, :class => "brand"
+          ul.nav.pull-right
+            li= link_to "My Account", "#"
+            li= link_to "Log Out", destroy_user_session_path, :method => :delete
+      h1 Ardhivie
+      .lead C:\The World
+      - flash.each do |name, msg|
+        div class="alert alert-#{name}"
+          button type="button" class="close" data-dismiss="alert" ×
+          = msg
+      = yield

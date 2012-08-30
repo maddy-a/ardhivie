@@ -69,6 +69,13 @@ class UfilesController < ApplicationController
     end
   end
 
+  def upload
+    uploaded_io = params[:ufile][:name]
+    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'w') do |file|
+      file.write(uploaded_io.read)
+    end
+  end
+  
   # DELETE /ufiles/1
   # DELETE /ufiles/1.json
   def destroy

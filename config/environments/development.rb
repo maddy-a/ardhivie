@@ -38,5 +38,6 @@ Ardhivie::Application.configure do
   
   #Devise asked me to do this for development
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  
+
+  Paperclip.options[:command_path] = "/usr/local/bin/"
 end

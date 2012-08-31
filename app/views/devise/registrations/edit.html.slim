@@ -1,0 +1,12 @@
+h2 My Account
+= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+  = devise_error_messages!
+  = f.input :email
+  = f.input :password, :input_html => {:rel => "tooltip", :title => "leave blank if you don't want to change it", :data => {:placement => :right}}
+  = f.input :password_confirmation
+  = f.input :current_password, :input_html => {:rel => "tooltip", :title => "we need your current password to confirm your changes", :data => {:placement => :right}}
+  = f.button :wrapped, "Update Account", :cancel => :back
+
+h3 Unhappy?
+p = link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger"
+= link_to "Back", :back

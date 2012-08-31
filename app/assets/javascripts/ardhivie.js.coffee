@@ -16,7 +16,8 @@ class window.Ardhivie
     }
     @map = new google.maps.Map(document.getElementById('map'), options)
     this.setInfo()
-  
+    this.getLocations()
+    
   setInfo: ->
     @infoWindow = new google.maps.InfoWindow({
       content: $('<div>').append(this.getForm()).html()

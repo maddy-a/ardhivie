@@ -3,6 +3,4 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
   av = new window.Ardhivie()
-  # av.setInfo()
-  av.getLocations()
   return

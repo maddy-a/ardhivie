@@ -35,9 +35,10 @@ Ardhivie::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   
-  
+  config.action_mailer.delivery_method = :test
   #Devise asked me to do this for development
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   Paperclip.options[:command_path] = "/usr/local/bin/"
+  Slim::Engine.set_default_options :pretty => true
 end

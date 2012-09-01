@@ -16,9 +16,31 @@ class window.Ardhivie
         }
       }
       @map = new google.maps.Map(document.getElementById('google-map'), options)
-      # this.setInfo()
+      this.initListners()
       this.getLocations()
-    
+  
+  initListners: ->
+    google.maps.event.addListener @map, 'dblclick', (event) =>
+      $.ajax {
+        type: "POST"
+        url: "/locations.json"
+        data: {latitude: event.latLng.lat(), longitude: event.latLng.lng()},
+        success: (location) =>
+          marker = this.addMarker location
+          $(marker).trigger "showWindow"
+      }
+  
+  addMarker: (location)->
+    marker_latlng = new google.maps.LatLng location.latitude, location.longitude
+    loc_id = location.id
+    marker = new google.maps.Marker({ position: marker_latlng, map: @map, title: 'Click me'})
+    $(marker).data("location-id",loc_id)
+    $(marker).bind "showWindow", =>
+      this.getInfo(loc_id).open(@map,marker);
+    google.maps.event.addListener marker, 'click', =>
+      $(marker).trigger "showWindow"
+    return marker
+      
   getInfo: (locationId)->
     new google.maps.InfoWindow({
       content: $('<div>').append(locationId).append(this.getForm(locationId)).html()
@@ -45,13 +67,7 @@ class window.Ardhivie
       success: (data) =>
         for location in data 
           do (location) =>
-            marker_latlng = new google.maps.LatLng location.latitude, location.longitude
-            loc_id = location.id
-            marker = new google.maps.Marker({ position: marker_latlng, map: @map, title: 'Click me'})
-            $(marker).data("location-id",loc_id)
-            google.maps.event.addListener marker, 'click', =>
-              this.getInfo(loc_id).open(@map,marker);
-              return
+            this.addMarker location
     })
   
   getForm: (location_id)->

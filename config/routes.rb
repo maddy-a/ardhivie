@@ -1,6 +1,8 @@
 Ardhivie::Application.routes.draw do
 
-  resources :ufiles
+  resources :ufiles do
+    get "get_form", :on => :collection
+  end
 
   resources :locations
 
@@ -58,6 +60,11 @@ Ardhivie::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  
+  namespace :api do
+    root :to => "home#index"
+    resources :locations
+  end
 
   # You can have the root of your site routed with "root"
   # just remember todelete public/index.html.

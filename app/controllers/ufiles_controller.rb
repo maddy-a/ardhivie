@@ -9,6 +9,11 @@ class UfilesController < ApplicationController
       format.json { render json: @ufiles }
     end
   end
+  
+  def get_form
+    @ufile = Ufile.new location_id: params[:location_id]
+    render :partial => "form"
+  end
 
   # GET /ufiles/1
   # GET /ufiles/1.json

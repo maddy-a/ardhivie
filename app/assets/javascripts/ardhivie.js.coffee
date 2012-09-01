@@ -1,28 +1,28 @@
 class window.Ardhivie
   constructor: ->
-    latlng = new google.maps.LatLng(37.09, -95.71)
-    options = {
-      zoom: 5
-      zoomControl: true 
-      center: latlng
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-      disableDefaultUI: true
-      disableDoubleClickZoom: true
-      noClear: true
-      navigationControl: true
-      navigationControlOptions: {
-        position: google.maps.ControlPosition.TOP_RIGHT
+    if $("#google-map").length > 0
+      latlng = new google.maps.LatLng(37.09, -95.71)
+      options = {
+        zoom: 5
+        zoomControl: true 
+        center: latlng
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        disableDefaultUI: true
+        disableDoubleClickZoom: true
+        noClear: true
+        navigationControl: true
+        navigationControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        }
       }
-    }
-    @map = new google.maps.Map(document.getElementById('map'), options)
-    this.setInfo()
-    this.getLocations()
+      @map = new google.maps.Map(document.getElementById('google-map'), options)
+      # this.setInfo()
+      this.getLocations()
     
-  setInfo: ->
-    @infoWindow = new google.maps.InfoWindow({
-      content: $('<div>').append(this.getForm()).html()
+  getInfo: (locationId)->
+    new google.maps.InfoWindow({
+      content: $('<div>').append(locationId).append(this.getForm(locationId)).html()
     });
-    return
     
   getFiles: ->
     $.ajax({
@@ -48,20 +48,19 @@ class window.Ardhivie
             marker_latlng = new google.maps.LatLng location.latitude, location.longitude
             loc_id = location.id
             marker = new google.maps.Marker({ position: marker_latlng, map: @map, title: 'Click me'})
+            $(marker).data("location-id",loc_id)
             google.maps.event.addListener marker, 'click', =>
-              @infoWindow.open(@map,marker);
+              this.getInfo(loc_id).open(@map,marker);
               return
     })
   
-  getForm: ->
-    td = $("<td>").append("Name:")
-    tr = $("<tr>").append(td)
-    input = $("<input>", {type: 'text', name: 'ufile[name]', size: "30"})
-    td = $("<td>").append(input)
-    tr.append(td)
-    table = $("<table>").append(tr)
-    input = $("<input>", {type: 'submit', value: 'New'})
-    td = $("<td>", {align: "right", colspan: "2"}).append(input)
-    tr = $("<tr>").append(td)
-    table.append(tr)
-    $("<form>", {method: "post", action: '/ufiles'}).append(table)
+  getForm: (location_id)->
+    form = ""
+    $.ajax {
+      url: "/ufiles/get_form"
+      data: {location_id: location_id}
+      success: (html) ->
+        form = html
+      async:false
+    }
+    return form

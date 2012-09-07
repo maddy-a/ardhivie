@@ -1,73 +1,65 @@
-# $.initialize = ->
+class window.Ardhiview.Map
   
-  # 
-  # $.ajax({
-  # type: "GET",
-  # dataType: "json",
-  # url: "/ufiles",
-  # success: function(data){
-  # str = "<table>"
-  # for( var i=0; i<data.length; i++ ){
-  # var file=data[i].name;
-  # str= str + "<tr><td>" + file + "<td></tr>";
-  # }
-  # str = str + "</table>"  
-  # }
-  # });
-#  
-# // alert(str);
-# 
-# var contentString = "<form method='post' action='/ufiles'><table>" +
-#              "<tr><td>Name:</td> <td><input id='ufile_name' name='ufile[name]' size='30' type='text'/></td> </tr>" +
-#             "<tr><td align=right ><input type='submit' value='New' /></td>" +
-#              "</tr></table></form>";
-# 
-# var infowindow = new google.maps.InfoWindow({
-#         content: contentString
-#     });
-# $.ajax({
-#      type: "GET",
-#      dataType: "json",
-#      url: "/locations",
-#      success: function(data){
-#      for( var i=0; i<data.length; i++ ){
-#        // Pass the latitude and longitude from data to maps.
-#        var marker_latlng= new google.maps.LatLng(data[i].latitude,data[i].longitude);
-#        var loc_id=data[i].id;
-#        var marker = new google.maps.Marker({
-#          position: marker_latlng, 
-#          map: map,
-#          title: 'Click me'
-#          });
-#            
-#            google.maps.event.addListener(marker, 'click', function() {
-#                  infowindow.open(map,this);
-#                });
-# 
-#        }
-#      }
-#  }); 
-# 
-# /* This particular sends an Ajax request to the controller to add the latitude and longitude of the points where there is a double click */  
-# 
-# google.maps.event.addListener(map, 'dblclick', function(event) {
-#    var marker = new google.maps.Marker({position: event.latLng, draggable: true, map: map});
-#      google.maps.event.addListener(marker, 'click', function() {
-#            infowindow.open(map,marker);
-#          });
-#    var latitude=event.latLng.lat();
-#    var longitude=event.latLng.lng(); 
-#    var datastring = 'latitude=' + latitude + '&longitude=' + longitude;
-#    $.ajax({
-#      type: "POST",
-#      url: "/locations",
-#      beforeSend: function(xhr) {
-#        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-#      },
-#      data: datastring,
-#      success: function(){}
-#    });
-# 
-#  });
-# 
-# }
+  element: null
+  googleMap: null
+  centerLatlng: null
+  openLocation: null
+  locations: null
+
+  constructor: ->
+    @element = new Map.Element()
+    @googleMap = new google.maps.Map(@element.getDOMElement(), @_mapOptions())
+
+    @_addResetControl()
+    @_initListners()
+  
+  reset: ->
+    
+  
+  resize: ->
+    center = @google_map.getCenter()
+    @element.resize()
+    @reset()
+    @googleMap.setCenter(center)
+    
+  # private methods
+  _initListners: ->
+    $(".zoomin-button").live "click", ->
+      location_id = $(this).data("location-id")
+      # Ardhiview.map().zoomMap Ardhiview.map().markerHash[location_id]
+      return false
+    
+    $(".reset-control").live "click", =>
+      # google.maps.event.addDomListener homeControlDiv, 'click', =>
+      @reset()
+      @googleMap.setCenter(@_mapOptions().center)
+      @googleMap.setZoom(@_mapOptions().zoom)
+    
+
+  _debug: ->
+    console.log this
+    
+  _mapOptions: ->
+    {
+      zoom: 5
+      zoomControl: true 
+      center: new google.maps.LatLng(39.50, -98.35)
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeControl: true
+      disableDefaultUI: true
+      disableDoubleClickZoom: true
+      noClear: true
+      navigationControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT
+      }
+    }
+  
+  _addResetControl: ->
+    homeControlDiv = document.createElement('div')
+    controlDiv = $("<div>")
+    controlDiv.text "Reset"
+    controlDiv.appendTo($(homeControlDiv).addClass("reset-control"))
+    homeControlDiv.index = 1;
+    @googleMap.controls[google.maps.ControlPosition.TOP_RIGHT].push homeControlDiv
+
+  

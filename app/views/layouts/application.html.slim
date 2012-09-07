@@ -6,20 +6,20 @@ html
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true"
-    = javascript_include_tag "http://www.google.com/jsapi"
+    = javascript_include_tag "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"
     = csrf_meta_tags
   body
     #header
       .navbar.navbar-static-top.navbar-inverse
-        .navbar-inner
-          .container
-            = link_to "Ardhivie", root_path, :class => "brand"
-            - if user_signed_in?
-              ul.nav.pull-right
-                li= link_to "My Account", edit_user_registration_path
-                li= link_to "Log Out", destroy_user_session_path, :method => :delete
+        .navbar-inner.container-fluid
+          = link_to "Ardhivie", root_path, :class => "brand"
+          - if user_signed_in?
+            ul.nav.pull-right
+              li= link_to "My Bookmarks", "#", :class => "bookmarks_link"
+              li= link_to "My Account", edit_user_registration_path
+              li= link_to "Log Out", destroy_user_session_path, :method => :delete
     #content
-      .container    
+      .container-fluid    
         - flash.each do |name, msg|
           div class="alert alert-#{name}"
             button type="button" class="close" data-dismiss="alert" ×

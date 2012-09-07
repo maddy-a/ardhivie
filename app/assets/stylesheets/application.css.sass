@@ -1,13 +1,61 @@
-//= require bootstrap.min
+//= require bootstrap
+//= require font-awesome
+//= require jquery.fileupload-ui
 //= require_self
 //= require_tree .
-
+$sidebar-width: 350px
 #google-map
-  width: 1000px
   height: 500px
   border: 1px solid #000
   img
     max-width: none
+  .reset-control
+    margin: 5px
+    color: black
+    font-family: Arial, sans-serif
+    -webkit-user-select: none
+    font-size: 13px
+    text-align: center
+    position: relative
+    padding: 1px 6px
+    border: 1px solid rgb(113, 123, 135)
+    -webkit-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px
+    box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 4px
+    min-width: 28px
+    background-position: initial initial
+    background-repeat: initial initial
+    z-index: 1
+    cursor: pointer
+    background-color: white
+    &:hover
+      background: -webkit-linear-gradient(top, rgb(255,255,255), rgb(230,230,230))
+        
+.file-upload-container
+  height: 300px
+  width: 650px
+  .existing-files
+    clear: both
+    height: 265px
+    overflow-y: auto
+    .template-download
+      .name
+        width: 400px
+      .size
+        width: 100px
+      .delete
+        width: 150px
+        text-align: right
+
+#bookmark-sidebar
+  width: $sidebar-width
+  margin-left: -1 * ($sidebar-width + 20)
+  .btn-close-bookmark
+    margin-bottom: 10px
+  .bookmarks
+    border: 1px solid #ddd
+    overflow: scroll
+    tbody
+      cursor: pointer
 
 #content
   padding-top: 20px
@@ -21,3 +69,7 @@
   color: #B94A48
   background-color: #F2DEDE
   border-color: #EED3D7
+#header
+  .nav
+    li
+      text-align: right

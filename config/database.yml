@@ -15,10 +15,8 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: pgtest_development
+  database: av_development
   pool: 5
-  username: pgtest
-  password:
 
 test:
   adapter: postgresql

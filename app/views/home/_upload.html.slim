@@ -1,0 +1,13 @@
+.file-upload-container
+  form class="" action="/ufiles" method="POST" enctype="multipart/form-data"
+    .fileupload-buttonbar
+      div
+        span class="btn btn-success fileinput-button"
+          i class="icon-plus icon-white"
+          span 
+            '  Add files...
+          input type="file" name="ufile[data]" multiple="multiple"
+          input type="hidden" name="ufile[location_id]" class="location_id"
+    .existing-files
+      table role="presentation" class="table table-striped"
+        tbody class="files"

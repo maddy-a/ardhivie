@@ -12,8 +12,16 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.widget
+//= require fileupload.tmpl.min
+//= require load-image.min
 //= require bootstrap.min
-//= require ardhivie
+//= require jquery.iframe-transport
+//= require jquery.fileupload
+//= require jquery.fileupload-fp
+//= require jquery.fileupload-ui
+//= require fileupload.locale
+//= require_tree ./../../../lib/assets/javascripts/.
+//= require ardhiview
 //= require_tree .
 
-// var initialize

@@ -21,7 +21,7 @@ class window.Ardhiview.Map
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>
       if (status == google.maps.GeocoderStatus.OK)
-        @_addNewLocation results[0].geometry.location
+        @_addNewLocation results[0].geometry.location, address
       else
         Ardhiview.showAlert('Geocode was not successful for the following reason: ' + status)
   
@@ -38,16 +38,15 @@ class window.Ardhiview.Map
   
   _removeNewLocation: ->
     unless @newLocation == null
-      @newLocation.setMap null
+      @newLocation.destroy()
   
-  _addNewLocation: (location) ->
+  _addNewLocation: (location, address) ->
     @_removeNewLocation()
-    @newLocation = new google.maps.Marker {
-      map: @googleMap
-      position: location
-      animation: google.maps.Animation.DROP
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
-    }
+    @newLocation = new Ardhiview.Location(
+      latitude: location.lat()
+      longitude: location.lng()
+      address: address
+    , true)
     @_zoom location
     
   

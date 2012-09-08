@@ -1,0 +1,17 @@
+#new-location-form.modal.hide.fade tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true" data-show="false"
+  .modal-header
+    button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+    h3 id="modal-label" New Location
+  .modal-body
+    = simple_form_for Location.new do |form|
+      = form.input :title
+      = form.input :address, :input_html => { :class => 'location-address' }
+  .modal-footer
+    .pull-left.location-information
+      i.icon.icon-map-marker
+      |  latitude:
+      span.location-lat
+      | , longitude: 
+      span.location-lng
+    button.btn data-dismiss="modal" aria-hidden="true" Cancel
+    button.btn.btn-primary Save Location

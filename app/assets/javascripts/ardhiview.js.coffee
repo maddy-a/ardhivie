@@ -38,3 +38,9 @@ class window._Ardhiview
     $(".close-alert-message").live "click", ->
       $("#message").fadeOut()
       return false
+    
+    $("#new-location-form .save-new-location").live "click", ->
+      if $('#new-location-form .location-title input').val() == ''
+        $('#new-location-form .location-title').addClass("error")
+        $('#new-location-form .location-title input').focus()
+        return false

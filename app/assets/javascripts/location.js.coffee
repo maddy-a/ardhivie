@@ -28,7 +28,7 @@ class window.Ardhiview.Location
     }
   
   _initNewLocationForm: ->
-    $('#new-location-form .location-address').val @_address
+    $('#new-location-form .location-address input').val @_address
     $('#new-location-form .location-lat').text (Math.round(@_latitude*10)/10).toFixed(2)
     $('#new-location-form .location-lng').text (Math.round(@_longitude*10)/10).toFixed(2)
     setTimeout ->

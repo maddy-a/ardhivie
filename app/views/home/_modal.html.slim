@@ -4,8 +4,8 @@
     h3 id="modal-label" New Location
   .modal-body
     = simple_form_for Location.new do |form|
-      = form.input :title
-      = form.input :address, :input_html => { :class => 'location-address' }
+      = form.input :title, :wrapper_html => { :class => 'location-title' }
+      = form.input :address, :wrapper_html => { :class => 'location-address' }
   .modal-footer
     .pull-left.location-information
       i.icon.icon-map-marker
@@ -14,4 +14,4 @@
       | , longitude: 
       span.location-lng
     button.btn data-dismiss="modal" aria-hidden="true" Cancel
-    button.btn.btn-primary Save Location
+    button.btn.btn-primary.save-new-location Save Location

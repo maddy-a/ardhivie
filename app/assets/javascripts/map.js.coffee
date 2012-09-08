@@ -17,6 +17,7 @@ class window.Ardhiview.Map
     @_initListners()
   
   reset: ->
+    @_removeNewLocation()
     
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>
@@ -36,9 +37,12 @@ class window.Ardhiview.Map
     @googleMap.setCenter location
     @googleMap.setZoom 18
   
-  _addNewLocation: (location)->
+  _removeNewLocation: ->
     unless @newLocation == null
       @newLocation.setMap null
+  
+  _addNewLocation: (location) ->
+    @_removeNewLocation()
     @newLocation = new google.maps.Marker {
       map: @googleMap
       position: location
@@ -55,7 +59,6 @@ class window.Ardhiview.Map
       return false
     
     $(".reset-control").live "click", =>
-      # google.maps.event.addDomListener homeControlDiv, 'click', =>
       @reset()
       @googleMap.setCenter(@_mapOptions().center)
       @googleMap.setZoom(@_mapOptions().zoom)

@@ -17,7 +17,6 @@ class window.Ardhiview.Map
     @_initListners()
   
   reset: ->
-    @_removeNewLocation()
     
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>
@@ -59,6 +58,7 @@ class window.Ardhiview.Map
       return false
     
     $(".reset-control").live "click", =>
+      @_removeNewLocation()
       @reset()
       @googleMap.setCenter(@_mapOptions().center)
       @googleMap.setZoom(@_mapOptions().zoom)

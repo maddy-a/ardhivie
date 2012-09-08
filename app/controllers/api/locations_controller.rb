@@ -9,14 +9,12 @@ class Api::LocationsController < Api::ApplicationController
   end
 
   def create
-    @user = User.find(current_user.id)
-    @location = @user.locations.create!(:latitude => params[:latitude], :longitude => params[:longitude])
-    @location = Location.create params[:location]
+    @location = Location.new params[:location]
     @location.user = current_user
     if @location.save
-      response_with(@location)
+      respond_with(@location)
     else
-      response_with(@location.errors, status: :unprocessable_entity)
+      respond_with(@location, status: :unprocessable_entity)
     end
   end
 

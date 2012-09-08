@@ -3,15 +3,20 @@
     button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
     h3 id="modal-label" New Location
   .modal-body
+    .alert.alert-block.alert-error.hide
+      a.close.close-alert-message href="#" data-dismiss="location-error" &times;
+      p.alert-message Location could not be saved!
     = simple_form_for Location.new do |form|
-      = form.input :title, :wrapper_html => { :class => 'location-title' }
-      = form.input :address, :wrapper_html => { :class => 'location-address' }
+      = form.input :title
+      = form.input :address
+      = form.input :latitude, :as => :hidden
+      = form.input :longitude, :as => :hidden
   .modal-footer
     .pull-left.location-information
       i.icon.icon-map-marker
       |  latitude:
-      span.location-lat
+      span.location-display-lat
       | , longitude: 
-      span.location-lng
+      span.location-display-lng
     button.btn data-dismiss="modal" aria-hidden="true" Cancel
     button.btn.btn-primary.save-new-location Save Location

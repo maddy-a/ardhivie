@@ -36,11 +36,20 @@ class window._Ardhiview
       Ardhiview.resize()
     
     $(".close-alert-message").live "click", ->
-      $("#message").fadeOut()
+      $(this).parents(".alert").fadeOut()
       return false
     
     $("#new-location-form .save-new-location").live "click", ->
-      if $('#new-location-form .location-title input').val() == ''
-        $('#new-location-form .location-title').addClass("error")
-        $('#new-location-form .location-title input').focus()
+      if $('#location_title').val() == ''
+        $('#location_title').parents(".control-group").addClass("error")
+        $('#location_title').focus()
         return false
+      else
+        $.post(
+          "/api/locations.json"
+          $('#new-location-form form').serializeJSON()
+        ).success( (data)->
+          $('#new-location-form').data("location").saved()
+        ).error( (data)->
+          $('#new-location-form .alert').fadeIn()
+        )

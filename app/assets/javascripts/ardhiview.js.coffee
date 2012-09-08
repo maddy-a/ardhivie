@@ -13,6 +13,13 @@ class window.Ardhiview
   @resize: ->
     @map().resize()
     @search().resize()
+  
+  @findAddress: (address) ->
+    @map().findAddress address
+  
+  @showAlert: (alert) ->
+    $("#message .alert-message").text(alert)
+    $("#message").fadeIn()
 
 class window._Ardhiview
   @_instances: 0
@@ -27,3 +34,7 @@ class window._Ardhiview
   initListeners: ->
     $(window).resize ->
       Ardhiview.resize()
+    
+    $(".close-alert-message").live "click", ->
+      $("#message").fadeOut()
+      return false

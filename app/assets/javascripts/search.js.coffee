@@ -3,6 +3,7 @@ class window.Ardhiview.Search
   
   constructor: ->
     @_initWidth()
+    @_initListners()
   
   resize: ->
     @_initWidth()
@@ -13,5 +14,9 @@ class window.Ardhiview.Search
   
   _element: ->
     $(Search.element_id)
+    
+  _initListners: ->
+    @_element().enterKey ->
+      Ardhiview.findAddress $(this).val()
   
   

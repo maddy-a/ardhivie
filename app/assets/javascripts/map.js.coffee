@@ -5,7 +5,7 @@ class window.Ardhiview.Map
   geoCoder: null
   centerLatlng: null
   openLocation: null
-  locations: null
+  locations: {}
   newLocation: null
 
   constructor: ->
@@ -25,6 +25,16 @@ class window.Ardhiview.Map
       else
         Ardhiview.showAlert('Geocode was not successful for the following reason: ' + status)
   
+  addExistingLocation: (location) ->
+    @locations[location.id] = new Ardhiview.Location location
+  
+  deleteLocation: (location_id) ->
+    @locations[location_id].destroy()
+    delete @locations[location_id]
+  
+  currentLocation: (location) ->
+    @openLocation = location
+    
   resize: ->
     center = @googleMap.getCenter()
     @element.resize()
@@ -62,6 +72,11 @@ class window.Ardhiview.Map
       @googleMap.setCenter(@_mapOptions().center)
       @googleMap.setZoom(@_mapOptions().zoom)
     
+    google.maps.event.addListener @googleMap, 'click', (event) =>
+      @openLocation.hideWindow()
+
+    google.maps.event.addListener @googleMap, 'zoom_changed', (event) =>
+      
 
   _debug: ->
     console.log this

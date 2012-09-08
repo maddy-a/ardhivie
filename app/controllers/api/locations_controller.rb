@@ -39,10 +39,6 @@ class Api::LocationsController < Api::ApplicationController
   def destroy
     @location = Location.find(params[:id])
     @location.destroy
-
-    respond_to do |format|
-      format.html { redirect_to locations_url }
-      format.json { head :no_content }
-    end
+    respond_with(:no_content)
   end
 end

@@ -14,24 +14,41 @@ class window.Ardhiview.Location
     @_longitude = location.longitude
     @_address = location.address
     @_title = location.title
+    @_location_id = location.id
     
     @_initMarker()
     if newLocation?
       @_initNewLocationForm()
+    else
+      @_saved = true
+      @_initInfoWindow()
   
   saved: (location_id)->
     @_saved = true
     @_location_id = location_id
     $('#new-location-form').modal('hide')
     @_initInfoWindow()
-    @_infoWindow.open Ardhiview.map().googleMap, @_marker
+    @showWindow()
   
   destroy: ->
+    if @_saved == true
+      $.ajax 
+        type: "DELETE"
+        dataType: "json"
+        url: "/locations/"+@_location_id+".json"
+    @hideWindow()
     @_marker.setMap null
+    delete @_infoWindow
+    delete @_marker
   
   showWindow: ->
+    Ardhiview.map().openLocation.hideWindow() if Ardhiview.map().openLocation != null
+    Ardhiview.map().currentLocation this
+    @_infoWindow.open Ardhiview.map().googleMap, @_marker
     
   hideWindow: ->
+    Ardhiview.map().currentLocation null
+    @_infoWindow.close()
 
   # private methods
   _initMarker: ->

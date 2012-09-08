@@ -28,8 +28,20 @@ class window._Ardhiview
     if $(Ardhiview.Map.Element.element_id).length > 0
       @map = new Ardhiview.Map()
       @search = new Ardhiview.Search()
-      this.initListeners()
+      @initListeners()
+      @initLocations()
     _Ardhiview._instances += 1
+  
+  initLocations: ->
+    $.ajax {
+      type: "GET"
+      dataType: "json"
+      url: "/locations.json"
+      success: (data) =>
+        for location in data 
+          do (location) =>
+            @map.addExistingLocation location
+    }
   
   initListeners: ->
     $(window).resize ->
@@ -39,6 +51,11 @@ class window._Ardhiview
       $(this).parents(".alert").fadeOut()
       return false
     
+    $(".delete-location").live "click", ->
+      if confirm("Are you sure you want to remove the location from the system?")
+        Ardhiview.map().deleteLocation $(this).data('location-id')
+        return false
+
     $("#new-location-form .save-new-location").live "click", ->
       if $('#location_title').val() == ''
         $('#location_title').parents(".control-group").addClass("error")

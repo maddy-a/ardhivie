@@ -17,7 +17,7 @@ class window.Ardhiview.Map
     
   
   resize: ->
-    center = @google_map.getCenter()
+    center = @googleMap.getCenter()
     @element.resize()
     @reset()
     @googleMap.setCenter(center)

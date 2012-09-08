@@ -49,7 +49,7 @@ class window._Ardhiview
           "/api/locations.json"
           $('#new-location-form form').serializeJSON()
         ).success( (data)->
-          $('#new-location-form').data("location").saved()
+          $('#new-location-form').data("location").saved(data.id)
         ).error( (data)->
           $('#new-location-form .alert').fadeIn()
         )

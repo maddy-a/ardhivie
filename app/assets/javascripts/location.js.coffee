@@ -1,6 +1,8 @@
 class window.Ardhiview.Location
-
+  
+  _location_id: null
   _marker: null
+  _infoWindow: null
   _latitude: null
   _longitude: null
   _address: null
@@ -17,12 +19,19 @@ class window.Ardhiview.Location
     if newLocation?
       @_initNewLocationForm()
   
-  saved: ->
+  saved: (location_id)->
     @_saved = true
+    @_location_id = location_id
     $('#new-location-form').modal('hide')
+    @_initInfoWindow()
+    @_infoWindow.open Ardhiview.map().googleMap, @_marker
   
   destroy: ->
     @_marker.setMap null
+  
+  showWindow: ->
+    
+  hideWindow: ->
 
   # private methods
   _initMarker: ->
@@ -30,6 +39,21 @@ class window.Ardhiview.Location
       map: Ardhiview.map().googleMap
       position: new google.maps.LatLng @_latitude, @_longitude
     }
+    $(@_marker).data("location", this)
+
+    google.maps.event.addListener @_marker, 'click', =>
+      @showWindow()
+  
+  _initInfoWindow: ->
+    @_infoWindow = new google.maps.InfoWindow {
+      content: @_getForm()
+    }
+    
+    google.maps.event.addListener @_infoWindow, 'closeclick', =>
+      @hideWindow()
+    
+  _getForm: ->
+    return tmpl("template-ufile-form",{location_id: @_location_id})
   
   _initNewLocationForm: ->
     $('#new-location-form').data("location", this)

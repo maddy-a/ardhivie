@@ -49,14 +49,17 @@ class window.Ardhiview.Map
   _removeNewLocation: ->
     unless @newLocation == null
       @newLocation.destroy()
+    @currentLocation null
   
   _addNewLocation: (location, address) ->
+    @openLocation.hideWindow() unless @currentLocation == null
     @_removeNewLocation()
     @newLocation = new Ardhiview.Location(
       latitude: location.lat()
       longitude: location.lng()
       address: address
     , true)
+    @currentLocation @newLocation
     @_zoom location
     
   

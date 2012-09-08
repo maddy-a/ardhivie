@@ -30,8 +30,11 @@ class window.Ardhiview.Location
     @_initInfoWindow()
     @showWindow()
   
+  is_saved: -> 
+    @_saved == true
+  
   destroy: ->
-    if @_saved == true
+    if @is_saved()
       $.ajax 
         type: "DELETE"
         dataType: "json"
@@ -48,7 +51,8 @@ class window.Ardhiview.Location
     
   hideWindow: ->
     Ardhiview.map().currentLocation null
-    @_infoWindow.close()
+    if @is_saved()
+      @_infoWindow.close()
 
   # private methods
   _initMarker: ->
@@ -60,7 +64,13 @@ class window.Ardhiview.Location
 
     google.maps.event.addListener @_marker, 'click', =>
       @showWindow()
-  
+    
+    google.maps.event.addListener @_marker, 'mouseover', =>
+      $(Ardhiview.Search.element_id).val @_title
+
+    google.maps.event.addListener @_marker, 'mouseout', =>
+      $(Ardhiview.Search.element_id).val ""
+
   _initInfoWindow: ->
     @_infoWindow = new google.maps.InfoWindow {
       content: @_getForm()
@@ -83,5 +93,5 @@ class window.Ardhiview.Location
       $('#new-location-form').modal('show')
     , '200'
     $('#new-location-form').on 'hidden', =>
-      unless @_saved
+      unless @is_saved()
         Ardhiview.map()._removeNewLocation()

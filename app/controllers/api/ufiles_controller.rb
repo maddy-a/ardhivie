@@ -1,7 +1,6 @@
 class Api::UfilesController < Api::ApplicationController
   def index
     @ufiles = Ufile.where(:location_id => params[:location_id]).order("id DESC").all
-    logger.info @ufiles.map{|x| x.to_jq_upload }.to_json
     respond_with(@ufiles.map{|x| x.to_jq_upload }.to_json)
   end
   

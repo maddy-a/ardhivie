@@ -43,16 +43,23 @@ class window.Ardhiview.Map
     
   # private methods
   _zoom: (location)->
+    w = null
+    unless @openLocation == null
+      w = @openLocation
+      @openLocation.hideWindow() 
     @googleMap.setCenter location
     @googleMap.setZoom 18
+    unless w == null
+      w.showWindow() 
   
   _removeNewLocation: ->
     unless @newLocation == null
-      @newLocation.destroy()
+      @newLocation.removeMarker()
       @newLocation = null
     @currentLocation null
   
   _addNewLocation: (location, address) ->
+    @openLocation.hideWindow()
     @_removeNewLocation()
     @newLocation = new Ardhiview.Location(
       latitude: location.lat()
@@ -64,9 +71,11 @@ class window.Ardhiview.Map
     
   
   _initListners: ->
+    that = this
     $(".zoomin-button").live "click", ->
       location_id = $(this).data("location-id")
-      # Ardhiview.map().zoomMap Ardhiview.map().markerHash[location_id]
+      location = that.locations[location_id]
+      that._zoom new google.maps.LatLng location._latitude, location._longitude
       return false
     
     $(".reset-control").live "click", =>

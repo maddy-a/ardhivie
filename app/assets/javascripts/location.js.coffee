@@ -41,23 +41,27 @@ class window.Ardhiview.Location
         type: "DELETE"
         dataType: "json"
         url: "/api/locations/"+@_location_id+".json"
-    @hideWindow()
+      @hideWindow()
+      delete @_infoWindow
+      @removeMarker()
+      
+  removeMarker: ->
     @_marker.setMap null
-    delete @_infoWindow
     delete @_marker
   
   showWindow: ->
     Ardhiview.map().openLocation.hideWindow() if Ardhiview.map().openLocation != null
     Ardhiview.map().currentLocation this
-    @_infoWindow.open Ardhiview.map().googleMap, @_marker
-    that = this
-    $('.fileupload').fileupload({prependFiles: true})
-    $('.fileupload').each ->
-      $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
-        if (result && result.length)
-          $(this).fileupload('option', 'done')
-            .call(this, null, {result: result})
-          $(this).data("existing-files-loaded",true)
+    if @is_saved()
+      @_infoWindow.open Ardhiview.map().googleMap, @_marker
+      that = this
+      $('.fileupload').fileupload({prependFiles: true})
+      $('.fileupload').each ->
+        $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
+          if (result && result.length)
+            $(this).fileupload('option', 'done')
+              .call(this, null, {result: result})
+            $(this).data("existing-files-loaded",true)
     
   hideWindow: ->
     Ardhiview.map().currentLocation null

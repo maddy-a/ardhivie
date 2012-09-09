@@ -1,7 +1,10 @@
 Ardhivie::Application.routes.draw do
 
   devise_for :users
-
+  resources :ufiles, :except => :index
+  resources :locations do
+    resources :ufiles, :only => :index
+  end
   namespace :api do
     root :to => "home#index"
     resources :ufiles, :except => :index

@@ -59,7 +59,7 @@ class window.Ardhiview.Map
     @currentLocation null
   
   _addNewLocation: (location, address) ->
-    @openLocation.hideWindow()
+    @openLocation.hideWindow() unless @openLocation == null
     @_removeNewLocation()
     @newLocation = new Ardhiview.Location(
       latitude: location.lat()

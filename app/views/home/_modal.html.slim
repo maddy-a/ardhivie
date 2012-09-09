@@ -6,7 +6,7 @@
     .alert.alert-block.alert-error.hide
       a.close.close-alert-message href="#" data-dismiss="location-error" &times;
       p.alert-message Location could not be saved!
-    = simple_form_for Location.new do |form|
+    = simple_form_for Location.new, :url => api_locations_path do |form|
       = form.input :title
       = form.input :address
       = form.input :latitude, :as => :hidden

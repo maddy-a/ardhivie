@@ -1,6 +1,6 @@
 class Api::LocationsController < Api::ApplicationController
   def index
-    @locations = current_user.locations.all
+    @locations = Locations.all
     respond_with(@locations)
   end
 

@@ -36,7 +36,7 @@ class window._Ardhiview
     $.ajax {
       type: "GET"
       dataType: "json"
-      url: "/locations.json"
+      url: "/api/locations.json"
       success: (data) =>
         for location in data 
           do (location) =>
@@ -65,8 +65,9 @@ class window._Ardhiview
         $.post(
           "/api/locations.json"
           $('#new-location-form form').serializeJSON()
-        ).success( (data)->
-          $('#new-location-form').data("location").saved(data.id)
+        ).success( (data) ->
+          Ardhiview.map().newLocation = null
+          $('#new-location-form').data("location").saved(data)
         ).error( (data)->
           $('#new-location-form .alert').fadeIn()
         )

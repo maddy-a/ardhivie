@@ -23,9 +23,11 @@ class window.Ardhiview.Location
       @_saved = true
       @_initInfoWindow()
   
-  saved: (location_id)->
+  saved: (location)->
     @_saved = true
-    @_location_id = location_id
+    @_location_id = location.id
+    @_title = location.title
+    @_address = location.address
     $('#new-location-form').modal('hide')
     @_initInfoWindow()
     @showWindow()
@@ -38,7 +40,7 @@ class window.Ardhiview.Location
       $.ajax 
         type: "DELETE"
         dataType: "json"
-        url: "/locations/"+@_location_id+".json"
+        url: "/api/locations/"+@_location_id+".json"
     @hideWindow()
     @_marker.setMap null
     delete @_infoWindow
@@ -48,6 +50,14 @@ class window.Ardhiview.Location
     Ardhiview.map().openLocation.hideWindow() if Ardhiview.map().openLocation != null
     Ardhiview.map().currentLocation this
     @_infoWindow.open Ardhiview.map().googleMap, @_marker
+    that = this
+    $('.fileupload').fileupload({prependFiles: true})
+    $('.fileupload').each ->
+      $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
+        if (result && result.length)
+          $(this).fileupload('option', 'done')
+            .call(this, null, {result: result})
+          $(this).data("existing-files-loaded",true)
     
   hideWindow: ->
     Ardhiview.map().currentLocation null
@@ -80,7 +90,7 @@ class window.Ardhiview.Location
       @hideWindow()
     
   _getForm: ->
-    return tmpl("template-ufile-form",{location_id: @_location_id})
+    return tmpl("template-ufile-form",{location_id: @_location_id, title: @_title, address: @_address})
   
   _initNewLocationForm: ->
     $('#new-location-form').data("location", this)

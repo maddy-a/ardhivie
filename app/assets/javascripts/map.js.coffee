@@ -52,7 +52,6 @@ class window.Ardhiview.Map
     @currentLocation null
   
   _addNewLocation: (location, address) ->
-    @openLocation.hideWindow() unless @currentLocation == null
     @_removeNewLocation()
     @newLocation = new Ardhiview.Location(
       latitude: location.lat()
@@ -70,7 +69,8 @@ class window.Ardhiview.Map
       return false
     
     $(".reset-control").live "click", =>
-      @_removeNewLocation()
+      @_removeNewLocation() unless @newLocation == null
+      @openLocation.hideWindow() unless @openLocation == null
       @reset()
       @googleMap.setCenter(@_mapOptions().center)
       @googleMap.setZoom(@_mapOptions().zoom)

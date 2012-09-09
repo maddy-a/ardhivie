@@ -4,7 +4,7 @@
         <td class="name"><span>{%=file.name%}</span></td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+            <td class="error"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
         {% } else if (o.files.valid && !i) { %}
             <td>
                 <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
@@ -34,18 +34,20 @@
     </tr>
 {% } %}
 </script>
-<script id="template-existing" type="text/x-tmpl">
-{% for (var i=0, file; file=o[i]; i++) { %}
-    <tr class="template-existing fade">
-        <td class="name">
-            Asdasdas
-        </td>
-    </tr>
-{% } %}
-</script>
 <script id="template-ufile-form" type="text/x-tmpl">
 <div class="file-upload-container">
-  <form action="/ufiles" class="fileupload fileupload-{%=o.location_id%}" enctype="multipart/form-data" method="POST" id="form-{%=o.location_id%}">
+  <form action="/api/ufiles.json" class="fileupload fileupload-{%=o.location_id%}" enctype="multipart/form-data" method="POST" id="form-{%=o.location_id%}">
+    <div class="header">
+      <h5>{%=o.title%}</h5>
+      <p class="lead">{%=o.address%}</p>
+    </div>
+    <div class="existing-files">
+      <table class="table table-striped" role="presentation">
+        <tbody class="files">
+        </tbody>
+      </tbody>
+      </table>
+    </div>
     <div class="fileupload-buttonbar">
       <div>
         <span class="btn btn-success fileinput-button">
@@ -54,21 +56,11 @@
           <input multiple="multiple" name="ufile[data]" type="file">
           <input class="location_id" name="ufile[location_id]" type="hidden" value="{%=o.location_id%}">
         </span>
-        <span class="btn btn-primary zoomin-button" data-location-id="{%=o.location_id%}">
-          <i class="icon-zoom-in icon-white"></i>
-          <span> Zoom In </span>
-        </span>
         <span class="btn btn-danger delete-location" data-location-id="{%=o.location_id%}">
           <i class="icon-trash icon-white"></i>
           <span> Delete Location </span>
         </span>
       </div>
-    </div>
-    <div class="existing-files">
-      <table class="table table-striped" role="presentation">
-        <tbody class="files"><tr class="template-download fade in">
-      </tbody>
-      </table>
     </div>
   </form>
 </div>

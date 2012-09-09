@@ -49,6 +49,7 @@ class window.Ardhiview.Map
   _removeNewLocation: ->
     unless @newLocation == null
       @newLocation.destroy()
+      @newLocation = null
     @currentLocation null
   
   _addNewLocation: (location, address) ->

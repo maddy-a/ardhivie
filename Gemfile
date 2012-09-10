@@ -6,7 +6,7 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'devise', '= 2.0'
+gem 'devise', '~> 2.1'
 gem 'thin'
 gem 'json'
 gem 'paperclip'

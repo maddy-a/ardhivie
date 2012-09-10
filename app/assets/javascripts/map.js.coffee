@@ -18,6 +18,8 @@ class window.Ardhiview.Map
     @_initListners()
   
   reset: ->
+    @clusterer.resetViewport()
+    @clusterer.redraw()
     
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>
@@ -38,6 +40,8 @@ class window.Ardhiview.Map
       @_zoom location
     
   deleteLocation: (location_id) ->
+    @setOpenLocation null
+    @clusterer.removeMarker(@locations[location_id]._marker)
     @locations[location_id].destroy()
     delete @locations[location_id]
   
@@ -61,8 +65,7 @@ class window.Ardhiview.Map
       @openLocation.hideWindow()
     @googleMap.setCenter new google.maps.LatLng location._latitude, location._longitude
     @googleMap.setZoom 18
-    @markers.resetViewport()
-    @markers.redraw()
+    @reset()
     unless w == null
       w.showWindow() 
   
@@ -75,9 +78,9 @@ class window.Ardhiview.Map
     
     $(".reset-control").live "click", =>
       @openLocation.hideWindow() unless @openLocation == null
-      @reset()
       @googleMap.setCenter(@_mapOptions().center)
       @googleMap.setZoom(@_mapOptions().zoom)
+      @reset()
     
     google.maps.event.addListener @googleMap, 'click', (event) =>
       @openLocation.hideWindow()

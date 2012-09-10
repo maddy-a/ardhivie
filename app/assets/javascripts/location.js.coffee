@@ -87,7 +87,7 @@ class window.Ardhiview.Location
       hideCloseButton: true
       arrowPosition: 30
       backgroundClassName: 'phoney'
-      arrowStyle: 2
+      arrowStyle: 0
   
   _initMarker: ->
     @_marker = new google.maps.Marker {

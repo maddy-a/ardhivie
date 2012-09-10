@@ -40,7 +40,7 @@ class window._Ardhiview
       success: (data) =>
         for location in data 
           do (location) =>
-            @map.addExistingLocation location
+            @map.addLocation location
     }
   
   initListeners: ->
@@ -55,8 +55,10 @@ class window._Ardhiview
       if confirm("Are you sure you want to remove the location from the system?")
         Ardhiview.map().deleteLocation $(this).data('location-id')
         return false
+    $("#new-location-form input").enterKey ->
+      $("#new-location-form .save-new-location").click()
 
-    $("#new-location-form .save-new-location").live "click", ->
+    $("#new-location-form .save-new-location").live "click", =>
       if $('#location_title').val() == ''
         $('#location_title').parents(".control-group").addClass("error")
         $('#location_title').focus()
@@ -65,9 +67,10 @@ class window._Ardhiview
         $.post(
           "/api/locations.json"
           $('#new-location-form form').serializeJSON()
-        ).success( (data) ->
-          Ardhiview.map().newLocation = null
-          $('#new-location-form').data("location").saved(data)
+        ).success( (data) =>
+          location = $('#new-location-form').data("location")
+          location.save(data)
+          @map.locations[location._location_id] = location
         ).error( (data)->
           $('#new-location-form .alert').fadeIn()
         )

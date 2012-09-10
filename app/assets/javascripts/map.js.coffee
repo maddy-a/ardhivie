@@ -6,13 +6,12 @@ class window.Ardhiview.Map
   centerLatlng: null
   openLocation: null
   locations: {}
-  newLocation: null
 
   constructor: ->
     @element = new Map.Element()
     @googleMap = new google.maps.Map(@element.getDOMElement(), @_mapOptions())
     @geoCoder = new google.maps.Geocoder()
-
+    @locations = {}
     @_addResetControl()
     @_initListners()
   
@@ -21,18 +20,27 @@ class window.Ardhiview.Map
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>
       if (status == google.maps.GeocoderStatus.OK)
-        @_addNewLocation results[0].geometry.location, address
+        location = results[0].geometry.location
+        @addLocation {address: address, latitude: location.lat(), longitude: location.lng()}
       else
         Ardhiview.showAlert('Geocode was not successful for the following reason: ' + status)
   
-  addExistingLocation: (location) ->
-    @locations[location.id] = new Ardhiview.Location location
-  
+  addLocation: (data) ->
+    location = new Ardhiview.Location data
+    if location.is_saved()
+      @locations[location._location_id] = location
+    else
+      @setOpenLocation location
+      @_zoom location
+    
   deleteLocation: (location_id) ->
     @locations[location_id].destroy()
     delete @locations[location_id]
   
-  currentLocation: (location) ->
+  setOpenLocation: (location) ->
+    if @openLocation != null
+      unless @openLocation.is_saved()
+        @openLocation.removeMarker()
     @openLocation = location
     
   resize: ->
@@ -44,42 +52,22 @@ class window.Ardhiview.Map
   # private methods
   _zoom: (location)->
     w = null
-    unless @openLocation == null
+    unless @openLocation == null || !@openLocation.is_saved()
       w = @openLocation
-      @openLocation.hideWindow() 
-    @googleMap.setCenter location
+      @openLocation.hideWindow()
+    @googleMap.setCenter new google.maps.LatLng location._latitude, location._longitude
     @googleMap.setZoom 18
     unless w == null
       w.showWindow() 
-  
-  _removeNewLocation: ->
-    unless @newLocation == null
-      @newLocation.removeMarker()
-      @newLocation = null
-    @currentLocation null
-  
-  _addNewLocation: (location, address) ->
-    @openLocation.hideWindow() unless @openLocation == null
-    @_removeNewLocation()
-    @newLocation = new Ardhiview.Location(
-      latitude: location.lat()
-      longitude: location.lng()
-      address: address
-    , true)
-    @currentLocation @newLocation
-    @_zoom location
-    
   
   _initListners: ->
     that = this
     $(".zoomin-button").live "click", ->
       location_id = $(this).data("location-id")
-      location = that.locations[location_id]
-      that._zoom new google.maps.LatLng location._latitude, location._longitude
+      that._zoom that.locations[location_id]
       return false
     
     $(".reset-control").live "click", =>
-      @_removeNewLocation() unless @newLocation == null
       @openLocation.hideWindow() unless @openLocation == null
       @reset()
       @googleMap.setCenter(@_mapOptions().center)
@@ -87,9 +75,6 @@ class window.Ardhiview.Map
     
     google.maps.event.addListener @googleMap, 'click', (event) =>
       @openLocation.hideWindow()
-
-    google.maps.event.addListener @googleMap, 'zoom_changed', (event) =>
-      
 
   _debug: ->
     console.log this

@@ -9,24 +9,23 @@ class window.Ardhiview.Location
   _title: null
   _saved: false
   _infoBubble: null
+
   # construt with {latitude: <>, longitude: <>, title: <>, address: <>}
-  constructor: (location, newLocation) ->
+  constructor: (location) ->
     @_latitude = location.latitude
     @_longitude = location.longitude
     @_address = location.address
     @_title = location.title
     @_location_id = location.id
-    
+
     @_initMarker()
-    if newLocation?
-      @_initNewLocationForm()
-    else
+    if @is_saved()
       @_initInfoBubble()
-      @_saved = true
       @_initInfoWindow()
+    else
+      @_initNewLocationForm()
   
-  saved: (location)->
-    @_saved = true
+  save: (location)->
     @_location_id = location.id
     @_title = location.title
     @_address = location.address
@@ -36,7 +35,7 @@ class window.Ardhiview.Location
     @showWindow()
   
   is_saved: -> 
-    @_saved == true
+    @_location_id?
   
   destroy: ->
     if @is_saved()
@@ -53,23 +52,21 @@ class window.Ardhiview.Location
     delete @_marker
   
   showWindow: ->
-    Ardhiview.map().openLocation.hideWindow() if Ardhiview.map().openLocation != null
-    Ardhiview.map().currentLocation this
-    if @is_saved()
-      @_infoWindow.open Ardhiview.map().googleMap, @_marker
-      that = this
-      $('.fileupload').fileupload({prependFiles: true})
-      $('.fileupload').each ->
-        $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
-          if (result && result.length)
-            $(this).fileupload('option', 'done')
-              .call(this, null, {result: result})
-            $(this).data("existing-files-loaded",true)
+    Ardhiview.map().openLocation.hideWindow() if Ardhiview.map().openLocation != null && Ardhiview.map().openLocation.is_saved()
+    Ardhiview.map().setOpenLocation this
+    @_infoWindow.open Ardhiview.map().googleMap, @_marker
+    that = this
+    $('.fileupload').fileupload({prependFiles: true})
+    $('.fileupload').each ->
+      $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
+        if (result && result.length)
+          $(this).fileupload('option', 'done')
+            .call(this, null, {result: result})
+          $(this).data("existing-files-loaded",true)
     
   hideWindow: ->
-    Ardhiview.map().currentLocation null
-    if @is_saved()
-      @_infoWindow.close()
+    Ardhiview.map().setOpenLocation null
+    @_infoWindow.close()
 
   # private methods
   _initInfoBubble: ->
@@ -97,6 +94,7 @@ class window.Ardhiview.Location
     $(@_marker).data("location", this)
 
     google.maps.event.addListener @_marker, 'click', =>
+      @_infoBubble.close()
       @showWindow()
     
     google.maps.event.addListener @_marker, 'mouseover', =>
@@ -120,6 +118,8 @@ class window.Ardhiview.Location
   
   _initNewLocationForm: ->
     $('#new-location-form').data("location", this)
+    $('#new-location-form .alert').hide()
+    $('#location_title').val ""
     $('#location_address').val @_address
     $('#location_latitude').val @_latitude
     $('#location_longitude').val @_longitude
@@ -130,4 +130,4 @@ class window.Ardhiview.Location
     , '200'
     $('#new-location-form').on 'hidden', =>
       unless @is_saved()
-        Ardhiview.map()._removeNewLocation()
+        Ardhiview.map().setOpenLocation null

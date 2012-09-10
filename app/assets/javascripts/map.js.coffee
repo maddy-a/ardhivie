@@ -6,11 +6,13 @@ class window.Ardhiview.Map
   centerLatlng: null
   openLocation: null
   locations: {}
+  clusterer: null
 
   constructor: ->
     @element = new Map.Element()
     @googleMap = new google.maps.Map(@element.getDOMElement(), @_mapOptions())
     @geoCoder = new google.maps.Geocoder()
+    @clusterer = new MarkerClusterer(@googleMap,[])
     @locations = {}
     @_addResetControl()
     @_initListners()
@@ -27,6 +29,8 @@ class window.Ardhiview.Map
   
   addLocation: (data) ->
     location = new Ardhiview.Location data
+    @clusterer.addMarker location._marker
+    @clusterer.redraw()
     if location.is_saved()
       @locations[location._location_id] = location
     else
@@ -57,6 +61,8 @@ class window.Ardhiview.Map
       @openLocation.hideWindow()
     @googleMap.setCenter new google.maps.LatLng location._latitude, location._longitude
     @googleMap.setZoom 18
+    @markers.resetViewport()
+    @markers.redraw()
     unless w == null
       w.showWindow() 
   

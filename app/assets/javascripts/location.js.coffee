@@ -8,6 +8,7 @@ class window.Ardhiview.Location
   _address: null
   _title: null
   _saved: false
+  _infoBubble: null
   # construt with {latitude: <>, longitude: <>, title: <>, address: <>}
   constructor: (location, newLocation) ->
     @_latitude = location.latitude
@@ -20,6 +21,7 @@ class window.Ardhiview.Location
     if newLocation?
       @_initNewLocationForm()
     else
+      @_initInfoBubble()
       @_saved = true
       @_initInfoWindow()
   
@@ -30,6 +32,7 @@ class window.Ardhiview.Location
     @_address = location.address
     $('#new-location-form').modal('hide')
     @_initInfoWindow()
+    @_initInfoBubble()
     @showWindow()
   
   is_saved: -> 
@@ -69,6 +72,23 @@ class window.Ardhiview.Location
       @_infoWindow.close()
 
   # private methods
+  _initInfoBubble: ->
+    @_infoBubble = new InfoBubble 
+      position: @_marker.getPosition()
+      content: "<div class='phoneytext'>"+@_title+"</div>"
+      shadowStyle: 1
+      padding: 0
+      backgroundColor: 'rgb(57,57,57)'
+      borderRadius: 4
+      arrowSize: 10
+      borderWidth: 1
+      borderColor: '#2c2c2c'
+      disableAutoPan: true
+      hideCloseButton: true
+      arrowPosition: 30
+      backgroundClassName: 'phoney'
+      arrowStyle: 2
+  
   _initMarker: ->
     @_marker = new google.maps.Marker {
       map: Ardhiview.map().googleMap
@@ -80,9 +100,11 @@ class window.Ardhiview.Location
       @showWindow()
     
     google.maps.event.addListener @_marker, 'mouseover', =>
-      $(Ardhiview.Search.element_id).val @_title
+      @_infoBubble.open Ardhiview.map().googleMap, @_marker
+      $(Ardhiview.Search.element_id).val @_address
 
     google.maps.event.addListener @_marker, 'mouseout', =>
+      @_infoBubble.close()
       $(Ardhiview.Search.element_id).val ""
 
   _initInfoWindow: ->

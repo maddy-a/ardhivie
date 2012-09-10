@@ -7,6 +7,7 @@ gem 'rails', '3.2.6'
 
 gem 'pg'
 gem 'devise', '~> 2.1'
+gem 'devise_invitable', :git => 'git://github.com/scambra/devise_invitable.git'
 gem 'thin'
 gem 'json'
 gem 'paperclip'

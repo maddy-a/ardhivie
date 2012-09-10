@@ -1,0 +1,6 @@
+h2 Invite others to collaborate
+
+= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+  = devise_error_messages!
+  = f.input :email
+  = f.button :wrapped, "Invite"

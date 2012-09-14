@@ -5,6 +5,9 @@ Ardhivie::Application.routes.draw do
   resources :locations do
     resources :ufiles, :only => :index
   end
+  
+  match "/download/ufile/:id" => "download#ufile", :as => :download_ufile
+  
   namespace :api do
     root :to => "home#index"
     resources :ufiles, :except => :index

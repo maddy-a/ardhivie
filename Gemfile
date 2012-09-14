@@ -11,6 +11,7 @@ gem 'devise_invitable', :git => 'git://github.com/scambra/devise_invitable.git'
 gem 'thin'
 gem 'json'
 gem 'paperclip'
+gem 'aws-sdk', '~> 1.3.4'
 
 gem 'slim-rails'
 gem 'simple_form'

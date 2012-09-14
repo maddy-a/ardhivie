@@ -46,6 +46,7 @@ class window.Ardhiview.Map
     @setOpenLocation null
     @clusterer.removeMarker(@locations[location_id]._marker)
     @locations[location_id].destroy()
+    Ardhiview.bookmarks().removeLocation(location_id)
     delete @locations[location_id]
   
   setOpenLocation: (location) ->

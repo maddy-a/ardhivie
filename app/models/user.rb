@@ -10,4 +10,8 @@ class User < ActiveRecord::Base
   
   has_many :locations
   has_many :ufiles
+  
+  def sign_up_at
+    !invitation_accepted_at.blank? && invitation_accepted_at > created_at ? invitation_accepted_at : created_at
+  end
 end

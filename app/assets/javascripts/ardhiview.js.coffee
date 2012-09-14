@@ -2,13 +2,24 @@ class window.Ardhiview
   _instance = undefined # Must be declared here to force the closure on the class
   
   @get: -> # Must be a static method
-    _instance ?= new _Ardhiview
+    if _instance?
+      _instance
+    else  
+      _instance = new _Ardhiview()
+      _instance.init()
+      $("#content").fadeIn()
+
+  @show: ->
+    
 
   @map: ->
     @get().map
 
   @search: ->
     @get().search
+
+  @bookmarks: ->
+    @get().bookmarks
 
   @resize: ->
     @map().resize()
@@ -21,17 +32,35 @@ class window.Ardhiview
     $("#message .alert-message").text(alert)
     $("#message").fadeIn()
 
+  @bookmarksVisible: ->
+    @bookmarks().visible
+
 class window._Ardhiview
   @_instances: 0
-
+  
   constructor: ->
+    _Ardhiview._instances += 1
+  
+  init: ->
     if $(Ardhiview.Map.Element.element_id).length > 0
+      @bookmarks = new Ardhiview.Bookmarks()
       @map = new Ardhiview.Map()
       @search = new Ardhiview.Search()
       @initListeners()
       @initLocations()
-    _Ardhiview._instances += 1
-  
+      @initMyLocations()
+      
+  initMyLocations: ->
+    $.ajax {
+      type: "GET"
+      dataType: "json"
+      url: "/api/locations/mine.json"
+      success: (data) =>
+        for location in data 
+          do (location) =>
+            @bookmarks.addLocation location
+    }
+    
   initLocations: ->
     $.ajax {
       type: "GET"

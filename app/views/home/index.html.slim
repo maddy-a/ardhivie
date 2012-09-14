@@ -14,6 +14,19 @@
       p.alert-message Alert Message
 .row-fluid
   .span12
-    #google-map
+    #bookmarks-sidebar.pull-left
+      / = button_tag :class => "btn btn-block btn-large btn-success btn-close-bookmark" do
+        i.icon-star-empty
+        '  Close Bookmarks
+      p class="lead" Your Locations
+      .bookmarks
+        .bookmark
+          table.table.table-striped
+            thead
+              tr
+                th Title
+                th Address
+            tbody
+    #google-map.pull-right
 = render :partial => "template"
 = render :partial => "modal"

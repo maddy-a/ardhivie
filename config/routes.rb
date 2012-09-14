@@ -9,6 +9,9 @@ Ardhivie::Application.routes.draw do
     root :to => "home#index"
     resources :ufiles, :except => :index
     resources :locations do
+      collection do
+        get :mine
+      end
       resources :ufiles, :only => :index
     end
   end

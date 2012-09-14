@@ -12,8 +12,10 @@ class window.Ardhiview.Map.Element
   
   # private methods
   _initWidth: ->
-    # @_element().width("100%")
-    @_element().width($(".container-fluid").width()-2)
+    if Ardhiview.bookmarksVisible()
+      @_element().width($(".container-fluid").width()-22-Ardhiview.bookmarks().element().width())
+    else
+      @_element().width($(".container-fluid").width()-2)
 
   _element: ->
     $(Element.element_id)

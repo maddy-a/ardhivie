@@ -3,6 +3,11 @@ class Api::LocationsController < Api::ApplicationController
     @locations = Location.all
     respond_with(@locations)
   end
+  
+  def mine
+    @locations = current_user.locations.all
+    respond_with(@locations)
+  end
 
   def show
     respond_with(Location.find(params[:id]))

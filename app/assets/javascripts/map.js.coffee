@@ -29,6 +29,9 @@ class window.Ardhiview.Map
       else
         Ardhiview.showAlert('Geocode was not successful for the following reason: ' + status)
   
+  showLocation: (location_id) ->
+    @locations[location_id].showWindow()
+  
   addLocation: (data) ->
     location = new Ardhiview.Location data
     @clusterer.addMarker location._marker

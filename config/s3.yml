@@ -1,12 +1,12 @@
 development:
-  bucket: ardhiview.user.files
-  access_key_id: AKIAIKJINY5LG75XKLFQ
-  secret_access_key: 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
+  bucket: ardhiview-uploads
+  access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
+  secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
 test:
-  bucket: ardhiview.user.files
+  bucket: ardhiview-uploads
   access_key_id: xxx
   secret_access_key: xxx
 production:
-  bucket: ardhiview.user.files
-  access_key_id: AKIAIKJINY5LG75XKLFQ
-  secret_access_key: 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
+  bucket: ardhiview-uploads
+  access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
+  secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"

@@ -100,6 +100,7 @@ class window._Ardhiview
           location = $('#new-location-form').data("location")
           location.save(data)
           @map.locations[location._location_id] = location
+          @bookmarks.addLocation data
         ).error( (data)->
           $('#new-location-form .alert').fadeIn()
         )

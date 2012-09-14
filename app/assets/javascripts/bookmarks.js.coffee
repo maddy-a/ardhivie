@@ -3,6 +3,7 @@ class window.Ardhiview.Bookmarks
   @element_id = "#bookmarks-sidebar"
   constructor: ->
     @_initPosition()
+    @_initListners()
   
   element: ->
     $(Bookmarks.element_id)
@@ -21,6 +22,28 @@ class window.Ardhiview.Bookmarks
 
   removeLocation: (location_id) ->
     @element().find("[data-bookmark-id="+location_id+"]").fadeOut()
+
+  toggleWindow: ->
+    if @visible then @hideWindow() else @showWindow()
+      
+  showWindow: ->
+    @visible = true
+    @element().animate
+      marginLeft: 0
+    , 
+      duration: 200
+      queue: false
+    Ardhiview.map().shrink()
+  
+  hideWindow: ->
+    @visible = false
+    @element().animate
+      marginLeft: -1 * (@element().width() + 20)
+    , 
+      duration: 200
+      queue: false
+    Ardhiview.map().expand()
+    
   # private methods
   _initPosition: ->
     if @visible
@@ -33,3 +56,11 @@ class window.Ardhiview.Bookmarks
   
   _elementTbody: =>
     $(Bookmarks.element_id + " .table tbody")
+    
+  _initListners: ->
+    $(".btn-close-bookmark").live "click", =>
+      @hideWindow()
+      return false
+    $('.my-locations-link').live "click", =>
+      @toggleWindow()
+      return false

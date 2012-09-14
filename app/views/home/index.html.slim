@@ -15,10 +15,11 @@
 .row-fluid
   .span12
     #bookmarks-sidebar.pull-left
-      / = button_tag :class => "btn btn-block btn-large btn-success btn-close-bookmark" do
-        i.icon-star-empty
-        '  Close Bookmarks
-      p class="lead" Your Locations
+      p class="lead"
+        ' Your Locations
+        = button_tag :class => "btn btn-mini btn-close-bookmark pull-right" do
+          i.icon-star-empty
+          '  Close Bookmarks
       .bookmarks
         .bookmark
           table.table.table-striped

@@ -10,6 +10,24 @@ class window.Ardhiview.Map.Element
   getDOMElement: ->
     @_element().get(0)
   
+  expand: (handler) ->
+    @_element().animate
+      width: $(".container-fluid").width()-2
+    , 
+      duration: 200
+      queue: false
+      complete: ->
+        Ardhiview.map().resize()
+  
+  shrink: ->
+    @_element().animate
+      width: $(".container-fluid").width()-22-Ardhiview.bookmarks().element().width()
+    , 
+      duration: 200
+      queue: false
+      complete: ->
+        Ardhiview.map().resize()
+        
   # private methods
   _initWidth: ->
     if Ardhiview.bookmarksVisible()

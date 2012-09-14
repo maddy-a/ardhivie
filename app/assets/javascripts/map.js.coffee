@@ -17,9 +17,16 @@ class window.Ardhiview.Map
     @_addResetControl()
     @_initListners()
   
+  expand: ->
+    @element.expand()
+  
+  shrink: ->
+    @element.shrink()
+  
   reset: ->
     @clusterer.resetViewport()
     @clusterer.redraw()
+    google.maps.event.trigger(@googleMap, "resize");
     
   findAddress: (address) ->
     @geoCoder.geocode { 'address': address}, (results, status) =>

@@ -17,6 +17,7 @@ html
           = link_to "Ardhivie", root_path, :class => "brand"
           - if user_signed_in?
             ul.nav.pull-right
+              li= link_to "My Locations", "#", :class => "my-locations-link"
               li= link_to "Invite Others", new_user_invitation_path
               li= link_to "My Account", edit_user_registration_path
               li= link_to "Log Out", destroy_user_session_path, :method => :delete

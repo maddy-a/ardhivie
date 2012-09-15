@@ -61,6 +61,7 @@ class window.Ardhiview.Bookmarks
     $(".btn-close-bookmark").live "click", =>
       @hideWindow()
       return false
+    $('.my-locations-link').fadeIn()
     $('.my-locations-link').live "click", =>
       @toggleWindow()
       return false

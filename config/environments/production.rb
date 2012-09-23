@@ -74,5 +74,6 @@ Ardhivie::Application.configure do
   }
   ActionMailer::Base.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => 'ardhiview.herokuapp.com' }
-
+  config.assets.initialize_on_precompile = false
+  config.assets.digest = true
 end

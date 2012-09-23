@@ -31,8 +31,9 @@ $sidebar-width: 350px
       background: -webkit-linear-gradient(top, rgb(255,255,255), rgb(230,230,230))
         
 .file-upload-container
+  width: 600px
   height: 322px
-  width: 650px
+  overflow: hidden
   .header
     h5
       margin: 0
@@ -47,16 +48,15 @@ $sidebar-width: 350px
     margin-bottom: 10px
     .template-download
       .name
-        width: 400px
+        width: 350px
       .size
         width: 100px
       .delete
-        width: 150px
+        width: 130px
         text-align: right
 
 #bookmarks-sidebar
   width: $sidebar-width
-  //margin-left: -1 * ($sidebar-width + 20)
   height: 500px
   margin-left: 0
   .btn-close-bookmark
@@ -64,7 +64,7 @@ $sidebar-width: 350px
   .bookmarks
     height: 450px
     border: 1px solid #ddd
-    overflow: scroll
+    overflow: auto
     tbody
       cursor: pointer
 

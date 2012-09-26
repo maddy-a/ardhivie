@@ -10,7 +10,7 @@ class window.Ardhiview.Search
 
   # private methods
   _initWidth: ->
-    @_element().width($(".container-fluid").width() - $(".input-prepend span.add-on").width() - 24)
+    @_element().width($(".container-fluid").width() - 48)
   
   _element: ->
     $(Search.element_id)

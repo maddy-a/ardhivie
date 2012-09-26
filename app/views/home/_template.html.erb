@@ -56,13 +56,15 @@
           <input multiple="multiple" name="ufile[data]" type="file">
           <input class="location_id" name="ufile[location_id]" type="hidden" value="{%=o.location_id%}">
         </span>
-        <span class="btn btn-primary zoomin-button" data-location-id="{%=o.location_id%}">
-          <i class="icon-zoom-in icon-white"></i>
-          <span> Zoom In </span>
-        </span>
-        <span class="btn btn-danger delete-location" data-location-id="{%=o.location_id%}">
-          <i class="icon-trash icon-white"></i>
-          <span> Delete Location </span>
+        <span class="pull-right">
+          <span class="btn btn-primary zoomin-button" data-location-id="{%=o.location_id%}">
+            <i class="icon-zoom-in icon-white"></i>
+            <span> Zoom In </span>
+          </span>
+          <span class="btn btn-danger delete-location" data-location-id="{%=o.location_id%}">
+            <i class="icon-trash icon-white"></i>
+            <span> Delete Location </span>
+          </span>
         </span>
       </div>
     </div>

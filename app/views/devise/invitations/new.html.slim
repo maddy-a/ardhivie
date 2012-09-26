@@ -1,6 +1,9 @@
-h2 Invite others to collaborate
-
-= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
-  = devise_error_messages!
-  = f.input :email
-  = f.button :wrapped, "Invite"
+.map-image.pull-left
+  h2 Invite others to collaborate
+  = simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+    = devise_error_messages!
+    = f.input :email
+    = f.button :wrapped, "Invite"
+  p.invitation-warning
+    span class="label label-important" Please Note:
+    '   Inviting others to collaborate will share all of your markers and documents with those individuals you invite to sign up for ArdhiView.

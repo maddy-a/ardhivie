@@ -4,6 +4,7 @@
 //= require_self
 //= require_tree .
 $sidebar-width: 350px
+
 #google-map
   height: 500px
   border: 1px solid #000
@@ -67,7 +68,12 @@ $sidebar-width: 350px
     overflow: auto
     tbody
       cursor: pointer
-
+.map-image
+  padding-left: 420px
+  padding-top: 80px
+  min-height: 477px
+  min-width: 400px
+  background: transparent image-url("map.gif") no-repeat left top
 #content
   padding-top: 20px
 
@@ -80,7 +86,36 @@ $sidebar-width: 350px
   color: #B94A48
   background-color: #F2DEDE
   border-color: #EED3D7
+#devise
+  padding-top: 50px
+#logo
+  background: transparent image-url("logo.gif") no-repeat center center
+  width: 200px
+  height: 50px
+  text-indent: -3000px
+  padding: 0 0 10px 0
+
 #header
   .nav
+    margin-top: 20px
     li
       text-align: right
+#IntercomTab
+  bottom: 0 !important
+  right: 100px !important
+  height: 38px
+  width: 102px
+  margin-bottom: -7px
+  margin-left: auto
+  color: white
+  cursor: pointer
+  text-indent: -100000px
+  overflow: hidden
+  position: fixed
+  z-index: 100000
+  background-image: image-url('feedback.png')
+  &:hover
+    margin-bottom: 0px
+    
+.invitation-warning
+  width: 400px

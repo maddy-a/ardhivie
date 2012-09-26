@@ -1,8 +1,12 @@
+<a id="IntercomTab" href="#">Feedback</a>
 <script id="IntercomSettingsScriptTag">
   var intercomSettings = {
     app_id: 'j0sspiv3',
     email: '<%= current_user.email %>', 
-    created_at: <%= current_user.sign_up_at.to_i %>
+    created_at: <%= current_user.sign_up_at.to_i %>,
+    widget: {
+      activator: '#IntercomTab'
+    }
   };
 </script>
 <script>

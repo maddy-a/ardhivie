@@ -1,8 +1,19 @@
-<p>Hello <%= @resource.email %>!</p>
-
-<p>Someone has invited you to <%= root_url %>, you can accept it through the link below.</p>
+<p>Congratulations,  <%= @resource.email %>! You’ve been invited to ArdhiView by <%= @resource.invited_by.email %>. You can accept it through the link below:</p>
 
 <p><%= link_to 'Accept invitation', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token) %></p>
 
-<p>If you don't want to accept the invitation, please ignore this email.<br />
-Your account won't be created until you access the link above and set your password.</p>
+<p>If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password.</p>
+
+<p>ArdhiView is the first B2B, map-based, file storage app for professionals who have projects, transactions, or clients designated by specific addresses.  We think you’ll love it for many reasons, but we’ll share three:</p>
+<ol>
+  <li>Intuitive organization of your documents</li>
+  <li>Ubiquitous, 24/7 access to your files from any device</li>
+  <li>Easy sharing for collaboration with your team, clients, or other colleagues</li>
+</ol>
+<p>If you’re not already aware, the app is currently in open beta, so our team is constantly testing, validating, and building to ensurethat this amazing product aligns with our customers’ needs. With that said, please know that your feedback is invaluable (as a matter of fact, we need it as much as possible).</p>
+
+<p>Please do not hesitate to reach out to our Team with any questions or suggestions. There is a feedback button within the app, so please, by all means, tell us what you think! </p>
+
+<p>Thank you,<br/>
+The ArdhiView Team<br/>
+(aka The A-Team)<p>

@@ -73,7 +73,7 @@ class LocationsController < ApplicationController
   # DELETE /locations/1.json
   def destroy
     @location = Location.find(params[:id])
-    @location.destroy
+    @location.destroy if current_user.id == @location.user_id
 
     respond_to do |format|
       format.html { redirect_to locations_url }

@@ -4,6 +4,4 @@ class Location < ActiveRecord::Base
   has_many :ufiles
   
   validates :latitude, :longitude, :title, :presence => true  
-  validates :address, :uniqueness => true
-  validates :latitude, :uniqueness =>{ :scope=> :longitude}
 end

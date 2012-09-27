@@ -9,6 +9,7 @@ class window.Ardhiview.Location
   _title: null
   _saved: false
   _infoBubble: null
+  _user_id: null
 
   # construt with {latitude: <>, longitude: <>, title: <>, address: <>}
   constructor: (location) ->
@@ -17,6 +18,7 @@ class window.Ardhiview.Location
     @_address = location.address
     @_title = location.title
     @_location_id = location.id
+    @_user_id = location.user_id
 
     @_initMarker()
     if @is_saved()
@@ -58,6 +60,7 @@ class window.Ardhiview.Location
     that = this
     $('.fileupload').fileupload({prependFiles: true})
     $('.fileupload').each ->
+      $(this).find(".delete-location").hide() if that._user_id.toString() != $("#current_user_id").val().toString()
       $.getJSON "/api/locations/"+that._location_id+"/ufiles.json", (result) =>
         if (result && result.length)
           $(this).fileupload('option', 'done')

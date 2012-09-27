@@ -1,6 +1,6 @@
 class Api::LocationsController < Api::ApplicationController
   def index
-    @locations = Location.all
+    @locations = Location.where(:user_id => current_user.user_ids_in_network)
     respond_with(@locations)
   end
   
